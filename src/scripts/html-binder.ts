@@ -1,9 +1,5 @@
 export class HTMLBinder {
-  constructor(
-    obj: { [x: string]: any; _bindings: { [x: string]: any[] } },
-    target: any,
-    props: any[],
-  ) {
+  constructor(obj: any, target: any, props: any[]) {
     obj._bindings = {}
 
     let els = Array.prototype.slice.call(
@@ -22,7 +18,9 @@ export class HTMLBinder {
         set: (newValue: any) => {
           obj[`_${prop}`] = newValue
           if (obj._bindings[prop]) {
-            obj._bindings[prop].forEach((el) => (el.innerHTML = newValue))
+            obj._bindings[prop].forEach(
+              (el: { innerHTML: any }) => (el.innerHTML = newValue),
+            )
           }
         },
         get: () => obj[`_${prop}`],

@@ -11,7 +11,7 @@ export class Field {
   minGroupCount: any
   map: any
   canvas: Canvas
-  inAction: boolean
+  inAction: boolean | undefined
   subscribers: any
   // Игровое поле
 
@@ -72,7 +72,7 @@ export class Field {
 
       if (!cell) {
         // если клетка пустая
-        let tile = this.getTile() // создать новый тайл
+        let tile = this.getTile(null) // создать новый тайл
         tile.position = point
         this.map[point.y][point.x] = tile
       }
@@ -87,7 +87,7 @@ export class Field {
   }
 
   // создать тайл нужного/случайного цвета
-  getTile(color: undefined) {
+  getTile(color: any) {
     return new Tile(color || this.getColor())
   }
 
@@ -95,7 +95,7 @@ export class Field {
     if (this.deactivate) return
     this.inAction = true
 
-    let neighbors = this.getNeighbors(position)
+    const neighbors = this.getNeighbors(position)
 
     if (neighbors.length < this.minGroupCount) return
 

@@ -1,10 +1,9 @@
 import { Point } from './point'
-import { Tile } from './tile'
 import { Subscriber } from './subscriber'
 
 import { statuses } from './statuses'
 
-let settings = {
+const settings = {
   ratio: 1.14, // отношение высоты тайла к ширине
   radiusPercent: 20, // радиус скругления фронтальной части
   assets: {
@@ -43,7 +42,7 @@ export class Canvas {
     height: number
     radius: number
   }
-  assets: {}
+  assets: any
   field: any
   constructor(canvas: any) {
     let requestAnimationFrame = window.requestAnimationFrame
@@ -91,11 +90,11 @@ export class Canvas {
     }
     setPosition() // сохранить текущее положение канвы
 
-    document.addEventListener('resize', (e) => {
+    document.addEventListener('resize', () => {
       setPosition() // сохранить текущее положение канвы
     })
 
-    document.addEventListener('scroll', (e) => {
+    document.addEventListener('scroll', () => {
       setPosition()
     })
   }
@@ -114,7 +113,7 @@ export class Canvas {
     }
 
     for (let asset in settings.assets) {
-      let assetSettings = settings.assets[asset]
+      const assetSettings = settings.assets[asset]
       let img = new Image()
       img.src = '/' + assetSettings.src
       loading++
@@ -178,7 +177,7 @@ export class Canvas {
     // отрисовать каждый тайл
     for (let y = 0; y < this.rows; y++) {
       for (let x = 0; x < this.cols; x++) {
-        this.drawTile(field[y][x])
+        this.drawTile(field[y][x], null, 0)
       }
     }
 
@@ -195,9 +194,9 @@ export class Canvas {
 
     size = size || this.tile.width
 
-    if (tile.status == statuses.super) {
+    if (tile.status === statuses.super) {
       // супертайл
-      this.drawTileSuper(tile, coords, size)
+      this.drawTileSuper(tile, coords)
     } else {
       // обычный тайл
       this.drawTileDefault(tile, coords, size)
@@ -282,7 +281,7 @@ export class Canvas {
 
   // отрисовать супер-тайл
   drawTileSuper(tile: { status: number }, coords: null | undefined) {
-    this.drawTileDefault(tile, coords)
+    this.drawTileDefault(tile, coords, 0)
   }
 
   // собрать набор цветов для тайла по значению оттенка цвета
@@ -354,7 +353,7 @@ export class Canvas {
     let position = this.getPointByCoords(new Point(x, y))
     this.publish('click', position)
   }
-  publish(arg0: string, position: Point) {
+  publish(arg0: string, position: Point): void {
     throw new Error('Method not implemented.')
   }
 
@@ -377,15 +376,9 @@ export class Canvas {
   }
 
   // анимация удаления тайла
-  deleteTile(
-    tile: { position?: any; status?: number },
-    callback: { (): void; (): void },
-  ) {
+  deleteTile(tile: any, callback: { (): void; (): void }) {
     // получить координаты клетки
     let coords = this.getCoordsByPoint(tile.position)
-
-    let centerX = coords.x1 + this.tile.width / 2
-    let centerY = coords.y2 - this.tile.height / 2
 
     let start = performance.now()
 
@@ -396,7 +389,6 @@ export class Canvas {
 
     let step = (timestamp: number) => {
       let progress = timestamp - start
-      let radius = 0
       if (progress > 0) {
         // radius = progress / 30;
         // this.ctx.beginPath();
@@ -452,9 +444,7 @@ export class Canvas {
       return
     }
 
-    let start = performance.now()
-
-    let step = (timestamp: any) => {
+    let step = () => {
       let next = false
       movingSet.forEach((tile) => {
         if (!tile.current) return
@@ -468,7 +458,7 @@ export class Canvas {
         } else {
           next = true
         }
-        this.drawTile(tile, tile.current)
+        this.drawTile(tile, tile.current, 0)
       })
       if (next) {
         requestAnimationFrame(step)
