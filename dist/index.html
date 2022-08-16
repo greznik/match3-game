@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Match 3</title>
+    <script type="module" crossorigin src="/assets/index.9adbf325.js"></script>
+    <link rel="stylesheet" href="/assets/index.dd1b1bd2.css">
+  </head>
+  <body>
+    <div class="game">
+      <div class="wrapper">
+        <div class="playground">
+          <div class="progress">
+            Прогресс
+            <div class="progress-line">
+              <div class="progress-value" data-progress></div>
+            </div>
+          </div>
+          <div class="field">
+            <canvas id="game-field" width="400"></canvas>
+          </div>
+        </div>
+        <div class="info">
+          <div class="level">
+            <span data-bind="level"></span>
+            &nbsp;уровень
+          </div>
+          <div class="stats">
+            <div class="step" data-bind="steps"></div>
+            <div class="points">
+              <span>Цель:</span>
+              <span class="count" data-bind="roundPoints"></span>
+            </div>
+            <div class="points">
+              <span>Очки:</span>
+              <span class="count" data-bind="points"></span>
+            </div>
+          </div>
+          <div class="bonuses">
+            Бонусы
+
+            <div class="bonuses-items">
+              <div class="bonus">
+                <div class="bonus-icon"></div>
+                <div class="bonus-count"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
