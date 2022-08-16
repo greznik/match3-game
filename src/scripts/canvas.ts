@@ -2,20 +2,18 @@ import { Point } from './point'
 import { Subscriber } from './subscriber'
 
 import { statuses } from './statuses'
-import star from '/assets/star.png'
-import top from '/assets/tile-top.png'
 
 const settings = {
   ratio: 1.14, // отношение высоты тайла к ширине
   radiusPercent: 20, // радиус скругления фронтальной части
   assets: {
     star: {
-      src: star,
+      src: '../assets/star.png',
       widthRatio: 0.58,
       heightRatio: 1,
     },
     top: {
-      src: top,
+      src: '../assets/tile-top.png',
       widthRatio: 0.95,
       heightRatio: 0.17,
     },
