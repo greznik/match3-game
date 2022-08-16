@@ -7,7 +7,6 @@ export class HTMLBinder {
     )
     els.forEach((el) => {
       let bind = el.getAttribute(target)
-      console.log(1, bind)
       if (!bind) return
       if (!obj._bindings[bind]) obj._bindings[bind] = []
       obj._bindings[bind].push(el)
